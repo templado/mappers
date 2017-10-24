@@ -24,7 +24,7 @@ class ViewModel {
     public function __call(string $name, array $arguments) {
 
         if (!isset($this->properties[$name])) {
-            return $arguments[0] ?? null;
+            return null;
         }
 
         return $this->properties[$name];

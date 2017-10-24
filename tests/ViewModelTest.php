@@ -21,10 +21,4 @@ class ViewModelTest extends TestCase {
         $this->assertNull($this->model->undef());
     }
 
-    public function testCallReturnsOriginalValueForUndefinedPropertyWhenGiven() {
-        $this->assertEquals(
-            'original', $this->model->undef('original')
-        );
-    }
-
 }
