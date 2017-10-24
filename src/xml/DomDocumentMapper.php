@@ -7,6 +7,11 @@ use DOMText;
 
 class DomDocumentMapper {
 
+    public function fromString(string $xmlString) {
+        $domDocument = $this->parseString($xmlString);
+        return $this->fromDomElement($domDocument->documentElement);
+    }
+
     public function fromDomDocument(DOMDocument $dom): ViewModel {
         return $this->fromDomElement($dom->documentElement);
     }
@@ -46,5 +51,25 @@ class DomDocumentMapper {
         }
 
         $properties[$name][] = $value;
+    }
+
+    /**
+     * @param string $xmlString
+     *
+     * @return DOMDocument
+     *
+     * @throws DomDocumentMapperException
+     */
+    private function parseString(string $xmlString): DOMDocument {
+        $org = libxml_use_internal_errors(true);
+        libxml_clear_errors();
+        $dom = new \DOMDocument();
+        $res = $dom->loadXML($xmlString);
+        libxml_use_internal_errors($org);
+        if (!$res) {
+            throw new DomDocumentMapperException(libxml_get_errors());
+        }
+
+        return $dom;
     }
 }
