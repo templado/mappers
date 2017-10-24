@@ -21,6 +21,16 @@ class DomDocumentMapperTest extends TestCase {
         $this->dom = new DOMDocument();
     }
 
+    public function testMapXMLString() {
+        $result = $this->mapper->fromString('<?xml version="1.0" ?><test>value</test>');
+        $this->assertInstanceOf(ViewModel::class, $result);
+    }
+
+    public function testInvalidXMLStringThrowsException() {
+        $this->expectException(DomDocumentMapperException::class);
+        $this->mapper->fromString('<?xml version="1.0" ?><invalid>');
+    }
+
     public function testMapSimpleElementWithText() {
         $element = $this->dom->createElement('test','text-value');
         $result = $this->mapper->fromDomElement($element);
@@ -70,6 +80,6 @@ class DomDocumentMapperTest extends TestCase {
 
         $this->assertInstanceOf(ViewModel::class, $result);
         $this->assertEquals('text-value', $result->asString());
-
     }
+
 }

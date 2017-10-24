@@ -16,6 +16,24 @@ class ViewModel {
     }
 
     /**
+     * @param string $jsonString
+     *
+     * @return ViewModel
+     */
+    public static function fromJSON(string $jsonString) {
+        return (new JsonMapper())->fromString($jsonString);
+    }
+
+    /**
+     * @param string $xmlString
+     *
+     * @return ViewModel
+     */
+    public static function fromXML(string $xmlString) {
+        return (new DomDocumentMapper())->fromString($xmlString);
+    }
+
+    /**
      * @param string $name
      * @param array  $arguments
      *

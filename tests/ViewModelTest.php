@@ -3,6 +3,9 @@ namespace Templado\Mappers;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers Templado\Mappers\ViewModel
+ */
 class ViewModelTest extends TestCase {
 
     private $model;
@@ -21,4 +24,23 @@ class ViewModelTest extends TestCase {
         $this->assertNull($this->model->undef());
     }
 
+    /**
+     * @uses \Templado\Mappers\JsonMapper
+     */
+    public function testCanBeConstructedFromJsonString() {
+        $this->assertInstanceOf(
+            ViewModel::class,
+            ViewModel::fromJSON('{"a":"value"}')
+        );
+    }
+
+    /**
+     * @uses \Templado\Mappers\DomDocumentMapper
+     */
+    public function testCanBeConstructedFromXmlString() {
+        $this->assertInstanceOf(
+            ViewModel::class,
+            ViewModel::fromXML('<?xml version="1.0" ?><root>text</root>')
+        );
+    }
 }
